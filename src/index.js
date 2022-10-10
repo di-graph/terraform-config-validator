@@ -3,7 +3,12 @@ const github = require('@actions/github');
 
 const axios = require('axios').default;
 
-const validationURL = "https://app.getdigraph.com/api/notifications/installation"
+const validationURL = "notifications/installation"
+
+const axiosInstance = axios.create({
+  baseURL: 'https://app.getdigraph.com/api/',
+  timeout: 1000,
+});
 
 try {
   // `tf-plan-json` input defined in action metadata file
@@ -14,7 +19,7 @@ try {
   }
 
   // Make API call and set response as output
-  axios.post(validationURL, {tfPlan: tfInput}).then(function (response) {
+  axiosInstance.post(validationURL, {tfPlan: tfInput}).then(function (response) {
     console.log(`API Response is:  ${response}`);
     core.setOutput("response", response);
   }).catch((error) => {
