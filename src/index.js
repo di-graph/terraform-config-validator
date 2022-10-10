@@ -3,8 +3,8 @@ const github = require('@actions/github');
 
 try {
   // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('tf-plan-json');
-  console.log(`Hello ${nameToGreet}!`);
+  const tfInput = core.getInput('tf-plan-json');
+  console.log(`Hello ${tfInput}!`);
   core.setOutput("response", "ok");
   // Get the JSON webhook payload for the event that triggered the workflow
   const payload = JSON.stringify(github.context.payload, undefined, 2)
