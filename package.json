@@ -19,7 +19,6 @@
   "homepage": "https://github.com/di-graph/terraform-config-validator#readme",
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "@actions/github": "^5.1.1",
-    "axios": "^1.1.2"
+    "@actions/github": "^5.1.1"
   }
 }
