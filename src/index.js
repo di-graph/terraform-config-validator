@@ -14,13 +14,12 @@ try {
 
   // Make API call and set response as output
   fetch(validationURL, {method: "POST", body: {tfPlan: tfInput}}).then(function (response) {
-    if (response.status == "200") {
+    if (response.ok) {
       console.log(`API Response is:  ${JSON.stringify(response)}`);
       core.setOutput("response", JSON.stringify(response));
     } else {
-      console.log(`API failed with ${response.status}: ${response.body}`);
-      core.setOutput("response", "error");
-      core.setFailed(`Something went wrong: ${JSON.stringify(response)}`)
+      console.log(`API failed with ${response.status}: ${response.body.text()}`);
+      core.setOutput("response", response.body.text());
     }
   })
 
