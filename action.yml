@@ -1,0 +1,12 @@
+name: 'Digraph Terraform Configuration Validator'
+description: 'Take tf plan and validate it'
+inputs:
+  tf-plan-json:  # terraform plan input JSON
+    description: 'JSON version of terraform plan output'
+    required: true
+outputs:
+    response:
+        description: 'HTTP Response Content'
+runs:
+  using: 'node16'
+  main: 'src/index.js'
