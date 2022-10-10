@@ -1,0 +1,24 @@
+{
+  "name": "terraform-config-validator",
+  "version": "1.0.0",
+  "description": "Github action for validating terraform configurations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/di-graph/terraform-config-validator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/di-graph/terraform-config-validator/issues"
+  },
+  "homepage": "https://github.com/di-graph/terraform-config-validator#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/github": "^5.1.1"
+  }
+}
