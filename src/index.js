@@ -15,11 +15,11 @@ try {
   // Make API call and set response as output
   fetch(validationURL, {method: "POST", body: {tfPlan: tfInput}}).then(function (response) {
     if (response.ok) {
-      console.log(`API Response is:  ${JSON.stringify(response)}`);
-      core.setOutput("response", JSON.stringify(response));
+      console.log(`API Response is:  ${response.json()}`);
+      core.setOutput("response", response.json());
     } else {
-      console.log(`API failed with ${response.status}: ${response.body.text()}`);
-      core.setOutput("response", response.body.text());
+      console.log(`API failed with ${response.status}: ${response.json()}`);
+      core.setOutput("response", response.body);
     }
   })
 
