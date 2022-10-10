@@ -9,17 +9,19 @@ try {
   const tfInput = core.getInput('tf-plan-json');
   console.log(`Input is: ${tfInput}!`);
   if (!tfInput) {
-    core.error('No tf-plan-json input provided.')
+    core.setFailed('No tf-plan-json input provided.')
   }
 
   // Make API call and set response as output
   fetch(validationURL, {method: "POST", body: {tfPlan: tfInput}}).then(function (response) {
-    console.log(`API Response is:  ${response}`);
-    core.setOutput("response", response);
-  }).catch((error) => {
-    console.log(`API Error is:  ${error}`);
-    core.setOutput("response", error);
-    core.error(`Something went wrong: ${error}`)
+    if (response.status == "200") {
+      console.log(`API Response is:  ${JSON.stringify(response)}`);
+      core.setOutput("response", JSON.stringify(response));
+    } else {
+      console.log(`API failed with ${response.status}: ${response.body}`);
+      core.setOutput("response", "error");
+      core.setFailed(`Something went wrong: ${JSON.stringify(response)}`)
+    }
   })
 
   // Get the JSON webhook payload for the event that triggered the workflow
