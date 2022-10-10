@@ -1,6 +1,6 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
-const fetch = require("node-fetch");
+import core from "@actions/core"
+import fetch from "node-fetch";
+import github from "@actions/github"
 
 const validationURL = "https://app.getdigraph.com/api/notifications/installation"
 
