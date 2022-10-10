@@ -13,19 +13,23 @@ try {
   }
 
   // Make API call and set response as output
+  let apiResponse
   fetch(validationURL, {method: "POST", body: {tfPlan: tfInput}}).then(function (response) {
-    if (response.ok) {
-      console.log(`API Response is:  ${response.json()}`);
-      core.setOutput("response", response.json());
+    apiResponse = response
+    return response.json()
+  }).then((jsonData) => {
+    if (apiResponse.ok) {
+      console.log(`API Response is:  ${jsonData}`);
+      core.setOutput("response", jsonData);
     } else {
-      console.log(`API failed with ${response.status}: ${response.json()}`);
-      core.setOutput("response", response.body);
+      console.log(`API failed with ${apiResponse.status}: ${jsonData}`);
+      core.setOutput("response", jsonData);
     }
   })
 
-  // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The event payload: ${payload}`);
+  // // Get the JSON webhook payload for the event that triggered the workflow
+  // const payload = JSON.stringify(github.context.payload, undefined, 2)
+  // console.log(`The event payload: ${payload}`);
 } catch (error) {
   core.setFailed(error.message);
 }
