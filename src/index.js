@@ -19,10 +19,10 @@ try {
     return response.json()
   }).then((jsonData) => {
     if (apiResponse.ok) {
-      console.log(`API Response is:  ${jsonData}`);
+      console.log(`API Response is:  ${JSON.stringify(jsonData)}`);
       core.setOutput("response", jsonData);
     } else {
-      console.log(`API failed with ${apiResponse.status}: ${jsonData}`);
+      console.log(`API failed with ${apiResponse.status}: ${JSON.stringify(jsonData)}`);
       core.setOutput("response", jsonData);
     }
   })
