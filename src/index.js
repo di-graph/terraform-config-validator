@@ -2,7 +2,7 @@ import core from "@actions/core"
 import fetch from "node-fetch";
 import github from "@actions/github"
 
-const validationURL = "https://app.getdigraph.com/api/notifications/installation"
+const validationURL = "https://app.getdigraph.com/api/terraform/validator"
 
 try {
   // `tf-plan-json` input defined in action metadata file
@@ -14,7 +14,7 @@ try {
 
   // Make API call and set response as output
   let apiResponse
-  fetch(validationURL, {method: "POST", body: {tfPlan: tfInput}}).then(function (response) {
+  fetch(validationURL, {method: "POST", body: {terraform_plan: tfInput}}).then(function (response) {
     apiResponse = response
     return response.json()
   }).then((jsonData) => {
