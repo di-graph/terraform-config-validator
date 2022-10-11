@@ -46,7 +46,8 @@ try {
     commitSHA = github.context.payload.after
     console.log(`The event commit sha: ${commitSHA}`);
   } else {
-    console.log(`The full payload is: ${github.context.payload}`)
+    const payload = JSON.stringify(github.context.payload, undefined, 2)
+    console.log(`The event payload: ${payload}`);
   }
 
 } catch (error) {
