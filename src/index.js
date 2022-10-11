@@ -12,6 +12,18 @@ try {
     core.setFailed('No tf-plan-json input provided.')
   }
 
+  // // Get the JSON webhook payload for the event that triggered the workflow
+  console.log(`The event name: ${github.context.eventName}`);
+  
+  // need organization, repo and commit SHA
+  const organization = github.context.repo.owner
+  const repository = github.context.repo.repo
+  const commitSHA = github.context.payload.after
+
+  console.log(`The event org: ${organization}`);
+  console.log(`The event repo: ${repository}`);  
+  console.log(`The event commit sha: ${commitSHA}`);
+
   // Make API call and set response as output
   let apiResponse
   const body = {
@@ -29,27 +41,6 @@ try {
       core.setOutput("response", jsonData);
     }
   })
-
-  // // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
-  console.log(`The event name: ${github.context.eventName}`);
-  
-  // need organization, repo and commit SHA for branch pushes
-  const organization = github.context.repo.owner
-  const repository = github.context.repo.repo
-
-  console.log(`The event org: ${organization}`);
-  console.log(`The event repo: ${repository}`);
-  
-  let commitSHA
-  if (github.context.eventName == "push") {
-    commitSHA = github.context.payload.after
-    console.log(`The event commit sha: ${commitSHA}`);
-  } else {
-    const payload = JSON.stringify(github.context.payload, undefined, 2)
-    console.log(`The event payload: ${payload}`);
-  }
-
 } catch (error) {
   core.setFailed(error.message);
 }
