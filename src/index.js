@@ -1,6 +1,8 @@
 import core from "@actions/core"
 import fetch from "node-fetch";
+import fs from "fs"
 import github from "@actions/github"
+import path from "path"
 
 const validationURL = "https://app.getdigraph.com/api/validate/terraform"
 
@@ -23,6 +25,9 @@ try {
   console.log(`The event org: ${organization}`);
   console.log(`The event repo: ${repository}`);  
   console.log(`The event commit sha: ${commitSHA}`);
+
+  const tfFile = fs.readFile(tfInput)
+  console.log(`The file is: ${tfFile}`);
 
   // Make API call and set response as output
   let apiResponse
