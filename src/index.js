@@ -2,7 +2,7 @@ import core from "@actions/core"
 import fetch from "node-fetch";
 import github from "@actions/github"
 
-const validationURL = "https://app.getdigraph.com/api/terraform/validator"
+const validationURL = "https://app.getdigraph.com/api/validate/terraform"
 
 try {
   // `tf-plan-json` input defined in action metadata file
