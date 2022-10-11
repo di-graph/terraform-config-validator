@@ -14,7 +14,10 @@ try {
 
   // Make API call and set response as output
   let apiResponse
-  fetch(validationURL, {method: "POST", body: {terraform_plan: tfInput}}).then(function (response) {
+  const body = {
+    terraform_plan: tfInput
+  }
+  fetch(validationURL, {method: "POST", body: JSON.stringify(body)}).then(function (response) {
     apiResponse = response
     return response.json()
   }).then((jsonData) => {
