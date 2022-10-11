@@ -31,8 +31,24 @@ try {
   })
 
   // // Get the JSON webhook payload for the event that triggered the workflow
-  // const payload = JSON.stringify(github.context.payload, undefined, 2)
-  // console.log(`The event payload: ${payload}`);
+  const payload = JSON.stringify(github.context.payload, undefined, 2)
+  console.log(`The event name: ${github.context.eventName}`);
+  
+  // need organization, repo and commit SHA for branch pushes
+  const organization = github.context.repo.owner
+  const repository = github.context.repo.repo
+
+  console.log(`The event org: ${organization}`);
+  console.log(`The event repo: ${repository}`);
+  
+  let commitSHA
+  if (github.context.eventName == "push") {
+    commitSHA = github.context.payload.after
+    console.log(`The event commit sha: ${commitSHA}`);
+  } else {
+    console.log(`The full payload is: ${github.context.payload}`)
+  }
+
 } catch (error) {
   core.setFailed(error.message);
 }
