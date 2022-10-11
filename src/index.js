@@ -28,28 +28,31 @@ try {
 
   fs.readFile(tfInput, (err, tfFile) => {
     if (err) {
-      console.log(`Error: ${err}`);
+      console.log(`Error: ${err.message}`);
+      core.setFailed(err.message)
     }
+    // Make API call and set response as output
+    let apiResponse
+    const body = {
+      terraform_plan: tfInput,
+      organization: organization,
+      repository: repository,
+      commit_sha: commitSHA
+    }
+    fetch(validationURL, {method: "POST", body: JSON.stringify(body)}).then(function (response) {
+      apiResponse = response
+      return response.json()
+    }).then((jsonData) => {
+      if (apiResponse.ok) {
+        console.log(`API Response is:  ${JSON.stringify(jsonData)}`);
+        core.setOutput("response", jsonData);
+      } else {
+        console.log(`API failed with ${apiResponse.status}: ${JSON.stringify(jsonData)}`);
+        core.setOutput("response", jsonData);
+      }
+    })
     console.log(`The file is: ${tfFile}`);
   });
-
-  // Make API call and set response as output
-  let apiResponse
-  const body = {
-    terraform_plan: tfInput
-  }
-  fetch(validationURL, {method: "POST", body: JSON.stringify(body)}).then(function (response) {
-    apiResponse = response
-    return response.json()
-  }).then((jsonData) => {
-    if (apiResponse.ok) {
-      console.log(`API Response is:  ${JSON.stringify(jsonData)}`);
-      core.setOutput("response", jsonData);
-    } else {
-      console.log(`API failed with ${apiResponse.status}: ${JSON.stringify(jsonData)}`);
-      core.setOutput("response", jsonData);
-    }
-  })
 } catch (error) {
   core.setFailed(error.message);
 }
