@@ -21,16 +21,9 @@ try {
   // need organization, repo and commit SHA
   const organization = github.context.repo.owner
   const repository = github.context.repo.repo
-  let issue_number_or_commit_sha = ""
-  if (eventName == "push") {
-    issue_number_or_commit_sha = github.context.payload.after
-  } else {
-    issue_number_or_commit_sha = github.context.payload.pull_request?.number
-  }
 
   console.log(`The event org: ${organization}`);
   console.log(`The event repo: ${repository}`);  
-  console.log(`The event issue number or commit sha: ${issue_number_or_commit_sha}`);
 
   fs.readFile(tfInput, (err, tfFile) => {
     if (err) {
@@ -40,13 +33,29 @@ try {
     const jsonTFFile = JSON.parse(tfFile)
     // Make API call and set response as output
     let apiResponse
-    const body = {
+    let body = {
       terraform_plan: JSON.stringify(jsonTFFile),
       organization: organization,
       repository: repository,
-      event_name: eventName,
-      issue_number_or_commit_sha: issue_number_or_commit_sha
+      event_name: eventName
     }
+    if (eventName == "push") {
+      const commit_sha = github.context.payload.after
+      console.log(`The event commit sha: ${commit_sha}`);
+      body = {
+        ...body, 
+        commit_sha: commit_sha
+      }
+    } else {
+      const issue_number = github.context.payload.pull_request?.number
+      console.log(`The event issue number: ${issue_number}`);
+      body = {
+        ...body, 
+        issue_number: issue_number
+      }
+    }
+    console.log(`The payload body is: ${JSON.stringify(body)}`);
+      
     fetch(validationURL, {method: "POST", body: JSON.stringify(body)}).then(function (response) {
       apiResponse = response
       return response.json()
