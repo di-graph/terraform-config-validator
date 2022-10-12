@@ -54,7 +54,6 @@ try {
         issue_number: issue_number
       }
     }
-    console.log(`The payload body is: ${JSON.stringify(body)}`);
       
     fetch(validationURL, {method: "POST", body: JSON.stringify(body)}).then(function (response) {
       apiResponse = response
