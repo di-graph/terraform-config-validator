@@ -9,22 +9,28 @@ const validationURL = "https://app.getdigraph.com/api/validate/terraform"
 try {
   // `tf-plan-json` input defined in action metadata file
   const tfInput = core.getInput('tf-plan-json');
-  console.log(`Input is: ${tfInput}!`);
+  console.log(`Input path is: ${tfInput}!`);
   if (!tfInput) {
     core.setFailed('No tf-plan-json input provided.')
   }
 
+  const eventName = github.context.eventName
   // // Get the JSON webhook payload for the event that triggered the workflow
-  console.log(`The event name: ${github.context.eventName}`);
+  console.log(`The event name: ${eventName}`);
   
   // need organization, repo and commit SHA
   const organization = github.context.repo.owner
   const repository = github.context.repo.repo
-  const commitSHA = github.context.payload.after
+  let issue_number_or_commit_sha = ""
+  if (eventName == "push") {
+    issue_number_or_commit_sha = github.context.payload.after
+  } else {
+    issue_number_or_commit_sha = github.context.payload.pull_request?.number
+  }
 
   console.log(`The event org: ${organization}`);
   console.log(`The event repo: ${repository}`);  
-  console.log(`The event commit sha: ${commitSHA}`);
+  console.log(`The event issue number or commit sha: ${issue_number_or_commit_sha}`);
 
   fs.readFile(tfInput, (err, tfFile) => {
     if (err) {
@@ -38,7 +44,8 @@ try {
       terraform_plan: JSON.stringify(jsonTFFile),
       organization: organization,
       repository: repository,
-      commit_sha: commitSHA
+      event_name: eventName,
+      issue_number_or_commit_sha: issue_number_or_commit_sha
     }
     fetch(validationURL, {method: "POST", body: JSON.stringify(body)}).then(function (response) {
       apiResponse = response
