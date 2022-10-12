@@ -31,10 +31,11 @@ try {
       console.log(`Error: ${err.message}`);
       core.setFailed(err.message)
     }
+    const jsonTFFile = JSON.parse(tfFile)
     // Make API call and set response as output
     let apiResponse
     const body = {
-      terraform_plan: tfInput,
+      terraform_plan: JSON.stringify(jsonTFFile),
       organization: organization,
       repository: repository,
       commit_sha: commitSHA
@@ -51,7 +52,6 @@ try {
         core.setOutput("response", jsonData);
       }
     })
-    console.log(`The file is: ${tfFile}`);
   });
 } catch (error) {
   core.setFailed(error.message);
