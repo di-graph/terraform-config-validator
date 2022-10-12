@@ -31,6 +31,14 @@ try {
       core.setFailed(err.message)
     }
     const jsonTFFile = JSON.parse(tfFile)
+    const resourceChanges = jsonTFFile['resource_changes']
+    let actualChanges = []
+    resourceChanges.forEach((resourceChange) => {
+      if (resourceChange?.change?.actions && resourceChange?.change?.actions.length > 0 && resourceChange?.change?.actions[0] != "no-op") {
+        actualChanges.push(resourceChange)
+      }
+    })
+    console.log(JSON.stringify(actualChanges))
     // Make API call and set response as output
     let apiResponse
     let body = {
