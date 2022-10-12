@@ -38,11 +38,11 @@ try {
         actualChanges.push(resourceChange)
       }
     })
-    console.log(JSON.stringify(actualChanges))
+    const parsedJSONPlan = {"actual_changes" : actualChanges}
     // Make API call and set response as output
     let apiResponse
     let body = {
-      terraform_plan: JSON.stringify(jsonTFFile),
+      terraform_plan: JSON.stringify(parsedJSONPlan),
       organization: organization,
       repository: repository,
       event_name: eventName
