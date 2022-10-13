@@ -15,10 +15,13 @@ try {
   }
 
   const eventName = github.context.eventName
+  const ref = github.context.ref
   // // Get the JSON webhook payload for the event that triggered the workflow
   console.log(`The event name: ${eventName}`);
+  console.log(`The event ref: ${ref}`);
   
-  // need organization, repo and commit SHA
+  
+  // need organization and repo
   const organization = github.context.repo.owner
   const repository = github.context.repo.repo
 
@@ -45,7 +48,8 @@ try {
       terraform_plan: parsedJSONPlan,
       organization: organization,
       repository: repository,
-      event_name: eventName
+      event_name: eventName,
+      ref: ref
     }
     if (eventName == "push") {
       const commit_sha = github.context.payload.after
