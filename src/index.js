@@ -39,7 +39,7 @@ try {
       }
     })
     const parsedJSONPlan = {"actual_changes" : actualChanges}
-    console.log(`Parsed changes: ${parsedJSONPlan}`)
+    console.log(`Parsed changes: ${JSON.stringify(parsedJSONPlan)}`)
     // Make API call and set response as output
     let apiResponse
     let body = {
