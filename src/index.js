@@ -33,7 +33,7 @@ try {
     const jsonTFFile = JSON.parse(tfFile)
     const resourceChanges = jsonTFFile['resource_changes']
     let actualChanges = []
-    resourceChanges.forEach((resourceChange) => {
+    resourceChanges?.forEach((resourceChange) => {
       if (resourceChange?.change?.actions && resourceChange?.change?.actions.length > 0 && resourceChange?.change?.actions[0] != "no-op") {
         actualChanges.push(resourceChange)
       }
