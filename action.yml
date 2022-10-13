@@ -4,6 +4,9 @@ inputs:
   tf-plan-json:  # terraform plan input JSON
     description: 'JSON version of terraform plan output'
     required: true
+  digraph-api-key:  # digraph api key
+    description: 'Digraph API Key'
+    required: true
 outputs:
     response:
         description: 'HTTP Response Content'

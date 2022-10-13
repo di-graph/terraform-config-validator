@@ -14,6 +14,11 @@ try {
     core.setFailed('No tf-plan-json input provided.')
   }
 
+  const apiKey = core.getInput('digraph-api-key');
+  if (!apiKey) {
+    core.setFailed('No digraph-api-key provided.')
+  }
+
   const eventName = github.context.eventName
   const ref = github.context.ref
   // // Get the JSON webhook payload for the event that triggered the workflow
@@ -66,8 +71,12 @@ try {
         issue_number: issue_number
       }
     }
+
+    const headers = {
+      "X-Digraph-Secret-Key": apiKey
+    }
       
-    fetch(validationURL, {method: "POST", body: JSON.stringify(body)}).then(function (response) {
+    fetch(validationURL, {method: "POST", headers: headers, body: JSON.stringify(body)}).then(function (response) {
       apiResponse = response
       return response.json()
     }).then((jsonData) => {
