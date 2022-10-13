@@ -38,7 +38,7 @@ try {
         actualChanges.push(resourceChange)
       }
     })
-    const parsedJSONPlan = {"actual_changes" : actualChanges}
+    const parsedJSONPlan = {"resource_changes" : actualChanges}
     // Make API call and set response as output
     let apiResponse
     let body = {
