@@ -85,7 +85,8 @@ try {
         core.setOutput("response", jsonData);
       } else {
         console.log(`API failed with ${apiResponse.status}: ${JSON.stringify(jsonData)}`);
-        core.setOutput("response", jsonData);
+        // fail the action if the API call didn't succeed
+        core.setFailed(JSON.stringify(jsonData));
       }
     })
   });
