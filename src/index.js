@@ -19,6 +19,8 @@ try {
     core.setFailed('No digraph-api-key provided.')
   }
 
+  const terraformWorkspace = core.getInput('terraform-workspace');
+
   const eventName = github.context.eventName
   const ref = github.context.ref
   // // Get the JSON webhook payload for the event that triggered the workflow
@@ -54,7 +56,8 @@ try {
       organization: organization,
       repository: repository,
       event_name: eventName,
-      ref: ref
+      ref: ref,
+      terraform_workspace: terraformWorkspace
     }
     if (eventName == "push") {
       const commit_sha = github.context.payload.after

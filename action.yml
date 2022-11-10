@@ -7,6 +7,8 @@ inputs:
   digraph-api-key:  # digraph api key
     description: 'Digraph API Key'
     required: true
+  terraform-workspace: # terraform workspace name
+    description: 'Terraform Workspace Name'
 outputs:
     response:
         description: 'HTTP Response Content'
