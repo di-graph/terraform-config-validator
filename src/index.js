@@ -86,10 +86,10 @@ try {
       } else {
         console.log(`API failed with ${apiResponse.status}: ${JSON.stringify(jsonData)}`);
         // fail the action if the API call didn't succeed
-        core.setFailed(JSON.stringify(jsonData));
+        core.setOutput(JSON.stringify(jsonData));
       }
     })
   });
 } catch (error) {
-  core.setFailed(error.message);
+  core.setOutput(error.message);
 }
