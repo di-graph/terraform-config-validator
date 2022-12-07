@@ -81,15 +81,15 @@ try {
       
     fetch(validationURL, {method: "POST", headers: headers, body: JSON.stringify(body)}).then(function (response) {
       apiResponse = response
-      return response.json()
-    }).then((jsonData) => {
+      return response.text()
+    }).then((data) => {
       if (apiResponse.ok) {
-        console.log(`API Response is:  ${JSON.stringify(jsonData)}`);
-        core.setOutput("response", jsonData);
+        console.log(`API Response is:  ${data}`);
+        core.setOutput("response", data);
       } else {
-        console.log(`API failed with ${apiResponse.status}: ${JSON.stringify(jsonData)}`);
+        console.log(`API failed with ${apiResponse.status}: ${data}`);
         // fail the action if the API call didn't succeed
-        core.setOutput(JSON.stringify(jsonData));
+        core.setOutput(data);
       }
     })
   });
